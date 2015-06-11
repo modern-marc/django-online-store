@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Welcome to your site</h1>
+<h3>Featured Products</h3>
+{% for product in featured_products %}
+	<div class='col-sm-4'>
+
+		<div class="thumbnail">
+				{% if product.productimage_set.all %}
+					{% for image in product.productimage_set.all %}
+
+						{% if image.featured %}
+						<a href='{{ product.get_absolute_url }}'>
+							<img src="/media/{{ image.image }}" class="img-responsive" />
+						</a>
+						{% endif %}
+
+					{% endfor %}
+				{% endif %}
+	   	 </div>
+
+	</div>
+{% endfor %}
+
+{% endblock %}

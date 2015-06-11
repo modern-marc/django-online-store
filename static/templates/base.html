@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="Marcus Taylor">
+		<link rel="shortcut icon" href="">
+
+		{% block head %}
+
+		{% endblock %}
+
+		<!-- Bootstrap core CSS -->
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="/static/css/style.css" rel="stylesheet">
+	</head>
+
+
+	<body>
+		
+		<nav class="navbar navbar-inverse navbar-static-top">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{% url 'home' %}">Company Name</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="{% url 'all_products' %}">Shop</a></li>
+					<li><a href="#">Blog</a></li>
+					<li><a href="#">Collection</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="{% url 'contact' %}">Contact</a></li>
+					<li><a href="{% url 'view_cart' %}">Cart</a></li>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</nav>
+
+		<div class="container">
+		{% block content %}
+
+		{% endblock %}
+		</div>
+		
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  {% block js %}
+  
+  {% endblock %}
+</body>
+
+
+</html>

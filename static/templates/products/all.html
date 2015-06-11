@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class='row '>
+
+{% for product in products %}
+		<div class='col-sm-4'>
+			<div class="thumbnail">
+					{% if product.productimage_set.all %}
+						{% for image in product.productimage_set.all %}
+
+							{% if image.featured %}
+							<a href='{{ product.get_absolute_url }}'>
+								<img src="/media/{{ image.image }}" class="img-responsive" />
+							</a>
+							{% endif %}
+
+						{% endfor %}
+					{% endif %}
+		   	 </div>
+		</div>
+
+		{% if forloop.counter|divisibleby:3 %}
+		</div>
+		<div class="row margins">
+
+		{% endif %}
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
+

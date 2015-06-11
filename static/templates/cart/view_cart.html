@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+    {% if messages %}
+    <div class="alert alert-info fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+	
+	{% if empty %}
+	<h1 style='text-align:center;'>{{ empty_message }}</h1>
+	{% else %}
+
+	<table class='table table-bordered cart'>
+		<tr class="active">
+			<td align="left" width="40%">Product</td>
+			<td align="center">Size</td>
+			<td align="center">Qautity</td>
+			<td align="center">Remove</td>
+			<td align="center">Price</td>
+		</tr>
+		{% for item in cart.cartitem_set.all %}
+		<tr>
+			{% for image in item.product.productimage_set.all %}
+			{% if image.featured %}
+			<td width="40%">
+				<div><img src="/media/{{ image.image }}"></div>
+				<div>{{ item.product }}</div>
+			</td>
+			{% endif %}
+			{% endfor %}
+			<td align="center">{{ item.variations.size }}</td>
+			<td align="center">{{ item.quantity }}</td>
+			<td align="center">
+				<form method='POST' action='{% url "remove_from_cart" item.id %}'>
+					{% csrf_token %}
+					<button type="submit" class="btn btn-link remove">
+						<i class="fa fa-times-circle"></i>
+					</button>
+				</form>
+			</td>
+			<td align="center">{{ item.product.price }}</td>
+		</tr>
+		{% endfor %}
+		<tfoot>
+			<tr>
+				<td width="40%" align="center" style="border:none;"></td>
+				<td align="center" style="border:none;"></td>
+				<td align="center" style="border:none;"></td>
+				<td align="center" style="border:none;"></td>
+				<td align="center" style="border:none;">Total: ${{ cart.total|stringformat:"1.2f" }}</td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<br/>
+	<a href='{% url "checkout_details" %}'><button class="btn btn-primary btn-block">Checkout</button></a>
+	{% endif %}
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

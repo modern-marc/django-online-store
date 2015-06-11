@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Order - Shipping Information</title>
+
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+    <div class="alert alert-info fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="row">
+		<div class='col-sm-7 col-sm-offset-1'>
+			<h3>Shipping Address</h3>
+			<form method='POST' action='' class="form-horizontal">
+				{% csrf_token %}
+				{{ shipping_form.non_field_errors }}
+
+				<div class="form-group checkout"> 
+					{{ shipping_form.shipping_name.errors }}
+					<label for="id_shipping_name" class="col-sm-2 control-label">Name:</label>
+					<div class="col-sm-10">
+						<input id="id_shipping_name" name="shipping_name" type="text" class="form-control" {% if shipping_instance %} value="{{ shipping_instance.shipping_name }}"{% endif %} />
+					</div>
+				</div>
+
+				<div class="form-group checkout">
+					{{ shipping_form.shipping_address.errors }}
+					<label for="id_shipping_address" class="col-sm-2 control-label">Address:</label> 
+					<div class="col-sm-10">
+						<input id="id_shipping_address" name="shipping_address" type="text" class="form-control" {% if shipping_instance %} value="{{ shipping_instance.shipping_address }}"{% endif %} />
+					</div>
+				</div>
+
+				<div class="form-group checkout">
+					{{ shipping_form.shipping_address2.errors }}
+					<label for="id_shipping_address2" class="col-sm-2 control-label">Address2:</label> 
+					<div class="col-sm-10">
+						<input id="id_shipping_address2" name="shipping_address2" type="text" class="form-control" {% if shipping_instance %} value="{{ shipping_instance.shipping_address2 }}"{% endif %} />
+					</div>
+				</div>
+
+				<div class="form-group checkout">
+					{{ shipping_form.shipping_city.errors }}
+					<label for="id_shipping_city" class="col-sm-2 control-label">City:</label> 
+					<div class="col-sm-10">
+						<input id="id_shipping_city" name="shipping_city" type="text" class="form-control" {% if shipping_instance %} value="{{ shipping_instance.shipping_city }}"{% endif %} />
+					</div>
+				</div>
+
+				<div class="form-group checkout">
+					{{ shipping_form.shipping_state.errors }}
+					<label for="id_shipping_state" class="col-sm-2 control-label">State:</label> 
+					<div class="col-sm-10">
+						<input id="id_shipping_state" name="shipping_state" type="text" class="form-control" {% if shipping_instance %} value="{{ shipping_instance.shipping_state }}"{% endif %} />
+					</div>
+				</div>
+
+				<div class="form-group checkout">
+					{{ shipping_form.shipping_country.errors }}
+					<label for="id_shipping_country" class="col-sm-2 control-label">Country:</label> 
+					<div class="col-sm-10">
+						<input id="id_shipping_country" name="shipping_country" type="text" class="form-control" {% if shipping_instance %} value="{{ shipping_instance.shipping_country }}"{% endif %} />
+					</div>
+				</div>
+
+				<div class="form-group checkout">
+					{{ shipping_form.shipping_zipcode.errors }}
+					<label for="id_shipping_zipcode" class="col-sm-2 control-label">Zip Code:</label> 
+					<div class="col-sm-10">
+						<input id="id_shipping_zipcode" name="shipping_zipcode" type="text" class="form-control" {% if shipping_instance %} value="{{ shipping_instance.shipping_zipcode }}"{% endif %} />
+					</div>
+				</div>
+
+				<div class="checkbox">
+					<label class="col-xs-offset-1">
+						<input type="checkbox" name="same" class="input_checkbox"> Billing address same as shipping address?
+					</label>
+				</div>
+				<br/>
+
+				<div class="billingWrap">
+					<h3>Billing Address</h3>
+					{{ billing_form.non_field_errors }}
+
+					<div class="form-group checkout">
+						{{ billing_form.billing_name.errors }}
+						<label for="id_billing_name" class="col-sm-2 control-label">Name:</label> 
+						<div class="col-sm-10">
+							<input id="id_billing_name" name="billing_name" type="text" class="form-control" {% if billing_instance %} value="{{ billing_instance.billing_name }}"{% endif %} />
+						</div>
+					</div>
+
+					<div class="form-group checkout">
+						{{ billing_form.billing_address.errors }}
+						<label for="id_billing_address" class="col-sm-2 control-label">Address:</label> 
+						<div class="col-sm-10">
+							<input id="id_billing_address" name="billing_address" type="text" class="form-control" {% if billing_instance %} value="{{ billing_instance.billing_address }}"{% endif %} />
+						</div>
+					</div>
+
+					<div class="form-group checkout">
+						{{ billing_form.billing_address2.errors }}
+						<label for="id_billing_address2" class="col-sm-2 control-label">Address2:</label> 
+						<div class="col-sm-10">
+							<input id="id_billing_address2" name="billing_address2" type="text" class="form-control" {% if billing_instance %} value="{{ billing_instance.billing_address2 }}"{% endif %} />
+						</div>
+					</div>
+
+					<div class="form-group checkout">
+						{{ billing_form.billing_city.errors }}
+						<label for="id_billing_city" class="col-sm-2 control-label">City:</label> 
+						<div class="col-sm-10">
+							<input id="id_billing_city" name="billing_city" type="text" class="form-control" {% if billing_instance %} value="{{ billing_instance.billing_city }}"{% endif %} />
+						</div>
+					</div>
+
+					<div class="form-group checkout">
+						{{ billing_form.billing_state.errors }}
+						<label for="id_billing_state" class="col-sm-2 control-label">State:</label> 
+						<div class="col-sm-10">
+							<input id="id_billing_state" name="billing_state" type="text" class="form-control" {% if billing_instance %} value="{{ billing_instance.billing_state }}"{% endif %} />
+						</div>
+					</div>
+
+					<div class="form-group checkout">
+						{{ billing_form.billing_country.errors }}
+						<label for="id_billing_country" class="col-sm-2 control-label">Country:</label> 
+						<div class="col-sm-10">
+							<input id="id_billing_country" name="billing_country" type="text" class="form-control" {% if billing_instance %} value="{{ billing_instance.billing_country }}"{% endif %} />
+						</div>
+					</div>
+
+					<div class="form-group checkout">
+						{{ billing_form.billing_zipcode.errors }}
+						<label for="id_billing_zipcode" class="col-sm-2 control-label">Zip Code:</label> 
+						<div class="col-sm-10">
+							<input id="id_billing_zipcode" name="billing_zipcode" type="text" class="form-control" {% if billing_instance %} value="{{ billing_instance.billing_zipcode }}"{% endif %} />
+						</div>
+					</div>
+				</div>
+				<br/>
+				<button class="btn btn-primary btn-block" type="submit">Next</button>
+			</form>
+		</div>
+		<div class="col-sm-3 hidden-xs">
+			<table class="table table-bordered">
+				<tr class="active">
+					<td>Products</td>
+				</tr>
+				{% for item in cart.cartitem_set.all %}
+					<tr>
+						<td>
+							{% for image in item.product.productimage_set.all %}
+							{% if image.featured %}
+							<img class='img-responsive' src="/media/{{ image.image }}" />
+							{% endif %}
+							{% endfor %}
+							<h4>{{ item.product.title}}</h4>
+							<h5>{{ item.product.price}}</h5>
+						</td>
+					</tr>
+				{% endfor %}
+				<tr class="active">
+					<td>Have a promo code?</td>
+				</tr>
+				<tr>
+					<td align="left">
+						{% if cart.promo_code %}
+							<h5>{{ cart.promo_code }} Applied</h5>
+							<h6>{{ cart.promo_code.deal }}% Off</h6>
+						    <form method='POST' action="{% url 'remove_promo' %}">
+								{% csrf_token %}
+					    		<button class="btn btn-link" id="add_promo" type="submit">Remove Code</button>
+						    </form>
+						{% else %}
+					    <form method='POST' action="{% url 'add_promo' %}">
+							{% csrf_token %}
+				    		<div class="input-group">
+						      	<input type="text" id="promo_code" name="code"placeholder="Add Promo Code..." class="form-control promo" />
+						      	<span class="input-group-btn">
+						        	<button class="btn btn-default btn-info" id="add_promo" type="submit">Submit</button>
+					      	</span>
+				    		</div>
+					    </form>
+					    {% endif %}
+				    </td>
+				</tr>
+				<tr class="active">
+					<td>Total</td>
+				</tr>
+				<tr>
+					<td>
+						{% if cart.promo_code %}
+						<p>Sale Total: {{ new_order.sale_total }}<br/>
+						Shipping: --</p>
+						{% else %}
+						<p>Total: {{ new_order.sub_total }}<br/>
+						Shipping: --</p>
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+
+	$(".input_checkbox").on("click", function(){
+		$(".billingWrap").slideToggle();
+
+		var checkedBoo = this.checked;
+		if (checkedBoo){
+			$("#id_billing_name").val($("#id_shipping_name").val());
+			$("#id_billing_address").val($("#id_shipping_address").val());
+			$("#id_billing_address2").val($("#id_shipping_address2").val());
+			$("#id_billing_city").val($("#id_shipping_city").val());
+			$("#id_billing_state").val($("#id_shipping_state").val());
+			$("#id_billing_country").val($("#id_shipping_country").val());
+			$("#id_billing_zipcode").val($("#id_shipping_zipcode").val());
+		}
+
+	})
+
+</script>
+
+{% endblock %}

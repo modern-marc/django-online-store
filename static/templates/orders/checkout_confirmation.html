@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+<title>Order Confirmation</title>
+
+{% endblock %}
+
+
+{% block content %}
+
+    {% if messages %}
+    <div class="alert alert-info fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <table class='table table-bordered'>
+    	<tr>
+    		<td colspan="4">Order# {{ new_order.order_id }}</td>
+    	</tr>
+        <tr>
+            <td colspan="2" style="text-align:center;">
+                <h4>Shipping Address</h4>
+                {{ new_order.shipping_address }}
+            </td>
+            <td colspan="2" style="text-align:center;">
+                <h5>Billing Address</h5>
+                {{ new_order.billing_address }}
+            </td>
+        </tr>
+        <tr class="active">
+            <td align="left" width="40%">Product</td>
+            <td align="center">Size</td>
+            <td align="center">Quantity</td>
+            <td align="center">Price</td>
+        </tr>
+        {% for item in cart.cartitem_set.all %}
+        <tr>
+            {% for image in item.product.productimage_set.all %}
+            {% if image.featured %}
+            <td width="40%">
+                <div><img class='cartImage' src="/media/{{ image.image }}"></div>
+                <div>{{ item.product }}</div>
+            </td>
+            {% endif %}
+            {% endfor %}
+            <td align="center">{{ item.variations.size }}</td>
+            <td align="center">{{ item.quantity }}</td>
+            <td align="center">{{ item.product.price }}</td>
+        </tr>
+        {% endfor %}
+        <tfoot>
+            <tr>
+                <td width="40%" align="center" style="border:none;"></td>
+                <td align="center" style="border:none;"></td>
+                <td align="center" style="border:none;"></td>
+                <td align="center" style="border:none;">
+                    <p>Sub Total: ${{ new_order.sub_total|stringformat:"1.2f" }}</p>
+                    {% if cart.promo_code %}
+                    <p>Savings: - ${{ new_order.sale_savings|stringformat:"1.2f" }}</p>
+                    {% endif %}
+                    <p>Shipping: ${{ new_order.shipping_total|stringformat:"1.2f" }}</p>
+                    <p>Total: ${{ new_order.final_total|stringformat:"1.2f" }}</p>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}

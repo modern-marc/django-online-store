@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="productsContainer margin">
+
+    {% if messages %}
+    <div class="alert alert-info fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+            
+	<div class='row'>
+		<div class='col-sm-6'>
+			{% for image in images %}
+				{% if image.featured %}
+				<img class='img-responsive' src="/media/{{ image.image }}" />
+				{% endif %}
+			{% endfor %}
+
+			<div class="row">
+			{% for image in images %}
+				{% if not image.featured %}
+				<div class="col-xs-4">
+			    <a href="#" class="thumbnail">
+			      <img class='img-responsive' src="/media/{{ image.image }}">
+			    </a>
+			  	</div>
+				{% endif %}
+
+				{% if forloop.counter|divisibleby:3 %}
+				</div>
+				<div class="row">
+
+				{% endif %}
+										 
+			{% endfor %}
+			</div>
+		</div>
+		<div class='col-sm-6'>
+			<div class='col-sm-8'>
+				<h1>{{ product.title }} 
+				</h1>
+			</div>
+			<div class='col-sm-12'>
+			 	<hr/>
+				{{ product.description|linebreaks }}
+			</div>
+		 	<div class='col-sm-12'>
+				 <hr/>
+				 Price: {{ product.price }} <br/>
+				 Shipping: {{ product.shipping_price }}<br/><br/>
+		 		<div class='col-xs-4'>
+					<form class='form' method='POST' action='{% url "add_to_cart" product.slug %}'> 
+					{% csrf_token %}
+					 	<select class='form-control' name='size'>
+					 		{% if variations %}
+							 	{% for size in variations %}
+							 		{% if size.quantity > 0 %}
+								 		<option value='{{ size.size }}'>{{ size.size }}</option>
+								 	{% endif %}
+								{% endfor %}
+					 		{% else %}
+							 		<option value='Coming Soon' selected>Coming Soon</option>
+							{% endif %}
+						</select>
+					 	<input  class="form-control"  name='qty' type='number' value='1'/>
+					 	{% if variations %}
+					 	<input class='btn btn-default btn-block' type='submit' value='Add to cart'/>
+					 	{% else %}
+					 	<input class='btn btn-default btn-block' value='Coming Soon' disabled="disabled"/>
+					 	{% endif %}
+					 </form>
+				 </div>
+		 	</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
